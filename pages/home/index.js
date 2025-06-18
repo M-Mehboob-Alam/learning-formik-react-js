@@ -3,6 +3,25 @@ import React from 'react'
 
 const page = () => {
 
+  const validate = values => {
+    const errors = {};
+    if (!values.first_name) {
+      errors.first_name = 'Required';
+    } else if (values.first_name.length > 10) {
+      errors.first_name = 'Must be 10 characters or less';
+    }
+    if (!values.last_name) {
+      errors.last_name = 'Required';
+    } else if (values.last_name.length > 10) {
+      errors.last_name = 'Must be 10 characters or less';
+    }
+    if (!values.email) {
+      errors.email = 'Required';
+    } else if (values.email.length > 10) {
+      errors.email = 'Must be 10 characters or less';
+    }
+    return errors;
+  }
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -14,6 +33,7 @@ const page = () => {
       address: '',
       zipcode: '',
     },
+    validate,
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
     },
@@ -37,20 +57,23 @@ const page = () => {
                   <label for="first-name" className="block text-sm/6 font-medium text-gray-900">First name</label>
                   <div className="mt-2">
                     <input type="text" name="first_name" id="first_name" value={formik.values.first_name} onChange={formik.handleChange} autocomplete="given-name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    {formik.errors.first_name ? <div className='text-red-500'>{formik.errors.first_name}</div> : null}
                   </div>
                 </div>
 
                 <div className="sm:col-span-3">
                   <label for="last-name" className="block text-sm/6 font-medium text-gray-900">Last name</label>
                   <div className="mt-2">
-                    <input type="text" name="last-name" id="last-name" autocomplete="family-name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    <input type="text" name="last_name" id="last_name" onChange={formik.handleChange} value={formik.values.last_name} autocomplete="family-name" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    {formik.errors.last_name ? <div className='text-red-500'>{formik.errors.last_name}</div> : null}
                   </div>
                 </div>
 
                 <div className="sm:col-span-4">
                   <label for="email" className="block text-sm/6 font-medium text-gray-900">Email address</label>
                   <div className="mt-2">
-                    <input id="email" name="email" type="email" autocomplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    <input id="email" name="email" type="email" value={formik.values.email} onChange={formik.handleChange} autocomplete="email" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    {formik.errors.email ? <div className='text-red-500'>{formik.errors.email}</div> : null}
                   </div>
                 </div>
 
